@@ -1,7 +1,7 @@
 var xoffset=0, yoffset=0;
 var render_distance = 100;
 var world_width = 20;
-var world_height= 5;
+var world_height= 100;
 var world_check_timeout = 300;
 var spawn_height = 10;
 var tileset = new Image();
@@ -101,7 +101,7 @@ function drawTile(index, x,y){
             tileset,
             tilemap[index].x, tilemap[index].y,
             tilemap[index].s, tilemap[index].s,
-            Math.floor(x*blocksize-xoffset), Math.floor(y*blocksize-yoffset),
+            Math.round(x*blocksize-xoffset), Math.round(y*blocksize-yoffset),
             blocksize, blocksize
         );
     }else{

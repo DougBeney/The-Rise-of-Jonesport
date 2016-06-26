@@ -20,8 +20,6 @@ var sprite_pos= [
 var player_info = {
     x: 0,
     y: 0,
-    blockposx: 0,
-    blockposy: 0,
     dx: 0,
     dy: 0,
     h: blocksize*3,
@@ -30,8 +28,8 @@ var player_info = {
     jumping: false,
 };
 player_collision_bounds = {
-    bottom_x: 0,
-    bottom_y: 0,
+    bottom_left: {x: 0, y: 0},
+    bottom_right: {x: 0, y: 0},
 };
 
 //Gun Variables
@@ -58,13 +56,7 @@ function drawPlayer(){
         cxt.strokeRect(player_info.x,player_info.y,
                         player_info.w,player_info.h);
 
-        //bottom of player
-        cxt.fillStyle="yellow";
-        cxt.fillRect(
-        Math.floor((player_collision_bounds.bottom_x*blocksize)-(xoffset)),
-        Math.floor(player_collision_bounds.bottom_y*blocksize-(yoffset)),
-        blocksize,
-        2);
+        //bottom left of player
     }
 }
 
@@ -100,12 +92,27 @@ function playerlogic(){
             currentsprite = 1;
         }
     }
-
     //move the screen
     if(moving_left){
-        xoffset-=speed;
+        var the_player = {
+            x: player_info.x,
+            y: player_info.y+5,
+            w: player_info.w/3,
+            h: player_info.h-10
+        };
+        if(!checkCollisionWithWorld(the_player,true)){
+            xoffset-=speed;
+        }
     }else if (moving_right){
-        xoffset+=speed;
+        var the_player = {
+            x: (player_info.x+player_info.w)-(player_info.w/3),
+            y: player_info.y+5,
+            w: player_info.w/3,
+            h: player_info.h-10
+        };
+        if(!checkCollisionWithWorld(the_player,true)){
+            xoffset+=speed;
+        }
     }
 
     var diffX = ((canvas.width / 2)/blocksize)*blocksize - (player_info.w/2)-player_info.x;

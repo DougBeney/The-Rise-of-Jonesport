@@ -9,33 +9,62 @@
 ---xoffset and yoffset are a part of world.js
 */
 
-var speedy = 1.02;
-
+var velocity_y = 1.02;
+var left_should_fall = false;
+var right_should_fall = false;
+var bottomofblock = {
+    x: 0,
+    y: 0,
+    w: 0,
+    h: 0,
+};
 function initPhysics(){
 
 }
 
-function physicsLoop(){
-    player_collision_bounds = {
-        bottom_x: Math.floor((player_info.x+blocksize+xoffset)/blocksize),
-        bottom_y: Math.floor((player_info.y+(blocksize*3)+yoffset)/blocksize),
-    };
 
-    if(!checkCollisionWithWorld({x: player_collision_bounds.bottom_x,
-                                 y: player_collision_bounds.bottom_y})){
-        yoffset+=speed*speedy;
+function physicsLoop(){
+    bottomofblock = {x: player_info.x+5, y: player_info.y+(player_info.h/2)-1,
+                     w: player_info.w-10, h: player_info.h/2+speed*velocity_y};
+    //ground collision
+    if(!checkCollisionWithWorld(bottomofblock)){
+        yoffset+=Math.round(speed*velocity_y);
+
     }
 }
 
-function checkCollisionWithWorld(p1){
-    for(var i in visable_worldarray){
-        if(p1.x == visable_worldarray[i].x && p1.y == visable_worldarray[i].y &&
-        visable_worldarray[i].index != block.GRASS_TOP){
-            return true;
-        }else if(i == visable_worldarray.length-1){
-            return false;
+function checkCollisionWithWorld(p1, custom){
+    var touchingsomething = false;
+        for(var i in visable_worldarray){
+            var ip = {
+                x: p1.x,
+                y: p1.y,
+                w: p1.w,
+                h: p1.h,
+            };
+            var ib = {
+                x: Math.round(blocksize*visable_worldarray[i].x-xoffset),
+                y: Math.round(blocksize*visable_worldarray[i].y-yoffset),
+                w: blocksize,
+                h: blocksize,
+            };
+
+
+            if(ip.x+ip.w >= ib.x &&
+               ip.x <= ib.x+ib.w &&
+               ip.y <= ib.y+ib.h &&
+               ip.y + ip.h >= ib.y){
+                if(visable_worldarray[i].index != block.GRASS_TOP){
+                    touchingsomething = true;
+                }
+            }else if(i == visable_worldarray.length-1){
+                if(!touchingsomething){
+                    touchingsomething = false;
+                }
+            }
         }
-    }
+
+    return touchingsomething;
 }
 
 function jump(){

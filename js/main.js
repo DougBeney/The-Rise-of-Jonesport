@@ -9,6 +9,7 @@ window.onload = function() {
 
   /*Begin Initializing*/
   function init() {
+    document.oncontextmenu =new Function("return false;");
     requestAnimationFrame = window.requestAnimationFrame ||
       window.mozRequestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
