@@ -36,7 +36,7 @@ player_collision_bounds = {
 //Gun Variables
 var gun=new Image();
 var gun_angle=0;
-gun.src="/img/shotgun_sheet.png";
+gun.src="img/shotgun_sheet.png";
 var gun_out=false;
 var gun_state = 0;
 var gun_scale=4;
