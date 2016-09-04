@@ -27,9 +27,13 @@ function physicsLoop(){
     bottomofblock = {x: player_info.x+5, y: player_info.y+(player_info.h/2)-1,
                      w: player_info.w-10, h: player_info.h/2+speed*velocity_y};
     //ground collision
-    if(!checkCollisionWithWorld(bottomofblock)){
+    if(!checkCollisionWithWorld(bottomofblock) && !player_info.jumping){
         yoffset+=Math.round(speed*velocity_y);
-
+        velocity_y+=.05;
+        player_info.falling = true;
+    }else{
+        velocity_y = 1.02;
+        player_info.falling = false;
     }
 }
 
@@ -68,7 +72,40 @@ function checkCollisionWithWorld(p1, custom){
 }
 
 function jump(){
-    if(!player_info.jumping){
+
+    if(!player_info.jumping && !player_info.falling){
+
+        var i = 0;
+        var delay = 0.5;
+        var extraheight = 10;
+
+        var the_player_left = {
+            x: player_info.x+20,
+            y: player_info.y-blocksize+extraheight,
+            w: player_info.w/3,
+            h: player_info.h-10
+        };
+        var the_player_right = {
+            x: (player_info.x+player_info.w)-(player_info.w/3)-20,
+            y: player_info.y-blocksize+extraheight,
+            w: player_info.w/3,
+            h: player_info.h-10
+        };
+        if(!checkCollisionWithWorld(the_player_left, true) && !checkCollisionWithWorld(the_player_right, true)){
+            player_info.jumping = true;
+
+            var jumploop = setInterval(function(){
+
+                yoffset-=1;
+
+                if(i == blocksize+extraheight){
+                    player_info.jumping = false;
+                    clearInterval(jumploop);
+                }
+
+                i++;
+            },delay);
+        }
 
     }
 }

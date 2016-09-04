@@ -7,7 +7,7 @@
 
 //Player variables
 var playersheet=new Image();
-playersheet.src="/img/player.png";
+playersheet.src="img/player.png";
 var currentsprite=1;
 var moving = false, moving_left=false, moving_right=false;
 var speed = 4;
@@ -26,6 +26,7 @@ var player_info = {
     w: blocksize*2,
     colliding: false,
     jumping: false,
+    falling: false,
 };
 player_collision_bounds = {
     bottom_left: {x: 0, y: 0},

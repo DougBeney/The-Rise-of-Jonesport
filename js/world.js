@@ -5,10 +5,10 @@ var world_height= 100;
 var world_check_timeout = 300;
 var spawn_height = 10;
 var tileset = new Image();
-tileset.src = "/img/terrain.png";
+tileset.src = "img/terrain.png";
 
 var skyimg = new Image();
-skyimg.src = "/img/sky.png";
+skyimg.src = "img/sky.png";
 
 var block = {
     EMPTY: 0,

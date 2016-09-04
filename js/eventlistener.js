@@ -7,6 +7,9 @@ var KEY = {
 
 var leftdown=false, rightdown=false;
 
+//Jumping variable
+var didJump = false;
+
 // MOUSE LISTENER
 document.addEventListener('mousemove', function(event) {
     Mouse = {
@@ -97,19 +100,26 @@ document.addEventListener('keydown', function(e){
             gun_out = !gun_out;
             break;
         case KEY.SPACE:
-            jump();
+            if(!didJump){
+                jump();
+                didJump = true;
+            }
     }
 });
 
 document.addEventListener('keyup', function(e){
     switch(e.keyCode){
-        case 65:
+        case KEY.A_KEY:
             if(moving){moving = false;}
             moving_left = false;
             break;
-        case 68:
+        case KEY.D_KEY:
             if(moving){moving = false;}
             moving_right = false;
             break;
+        case KEY.SPACE:
+            didJump = false;
+            break;
+
     }
 });
